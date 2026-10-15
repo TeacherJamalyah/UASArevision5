@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UASA English Year 5 Mastery Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            400: '#38bdf8',
+                            500: '#0284c7',
+                            600: '#0369a1',
+                            700: '#075985',
+                        }
+                    },
+                    fontFamily: {
+                        fredoka: ['Fredoka', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Fredoka', cursive, sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .bounce-btn {
+            transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.15s ease;
+        }
+        .bounce-btn:active {
+            transform: scale(0.93);
+        }
+        .bounce-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+        }
+
+        .star-glow {
+            filter: drop-shadow(0 0 8px #f59e0b);
+        }
+
+        .card-pop {
+            animation: pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes pop {
+            0% { transform: scale(0.88); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .float-anim {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.05);
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #0284c7;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 flex flex-col justify-between transition-colors duration-300">
+
+    <header class="sticky top-0 z-40 w-full bg-white/90 dark:bg-slate-800/90 backdrop-blur-md border-b-4 border-sky-400 dark:border-sky-600 px-4 py-3 shadow-md">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <!-- Logo / Home -->
+            <div onclick="showSection('dashboard')" class="flex items-center gap-3 cursor-pointer group">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-sky-500 to-indigo-600 flex items-center justify-center text-2xl shadow-lg border-2 border-white group-hover:rotate-6 transition-transform text-white">
+                    🎓
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-base sm:text-xl text-sky-700 dark:text-sky-400 leading-none">UASA English Year 5</h1>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 font-bold">Comprehensive Exam & Syllabus Portal</p>
+                </div>
+            </div>
+
+            <!-- Score & System Utilities -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <div class="bg-amber-100 dark:bg-amber-950/80 border-2 border-amber-400 text-amber-800 dark:text-amber-300 px-3.5 py-1.5 rounded-2xl font-black text-sm flex items-center gap-2 shadow-inner">
+                    <i class="fa-solid fa-star text-amber-500 text-lg star-glow float-anim"></i>
+                    <span id="star-count">0</span>
+                </div>
+
+                <button onclick="toggleAudio()" id="audio-toggle-btn" class="w-10 h-10 rounded-2xl bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-700 dark:text-slate-200 border-2 border-slate-300 flex items-center justify-center text-base bounce-btn shadow" title="Toggle Sound">
+                    <i id="audio-icon" class="fa-solid fa-volume-high"></i>
+                </button>
+
+                <button onclick="toggleDarkMode()" class="w-10 h-10 rounded-2xl bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-700 dark:text-slate-200 border-2 border-slate-300 flex items-center justify-center text-base bounce-btn shadow" title="Toggle Dark/Light Mode">
+                    <i id="theme-icon" class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl w-full mx-auto p-4 sm:p-6 flex-grow">
+
+        <!-- ================= DASHBOARD SECTION ================= -->
+        <section id="sec-dashboard" class="space-y-6">
+            <!-- Banner -->
+            <div class="bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden border-4 border-sky-200">
+                <div class="max-w-2xl relative z-10 space-y-3">
+                    <span class="bg-white/30 text-white font-extrabold text-xs uppercase px-3.5 py-1.5 rounded-full backdrop-blur-sm">Official Syllabus • English Plus 1</span>
+                    <h2 class="text-3xl sm:text-5xl font-black drop-shadow-md">Master Year 5 UASA English! 🏆</h2>
+                    <p class="text-sky-100 text-xs sm:text-sm font-semibold leading-relaxed">
+                        Prepare for your UASA examination with comprehensive **Grammar Notes**, **Vocabulary Flashcards**, **Parts 1-5 Interactive Practice Tests**, and **Writing Guides**.
+                    </p>
+                </div>
+                <div class="absolute -right-4 -bottom-8 text-9xl opacity-20 select-none">
+                    📘
+                </div>
+            </div>
+
+            <!-- Main Portal Modules -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+                <!-- Module 1: Revision Notes -->
+                <div onclick="showSection('notes')" class="bg-white dark:bg-slate-800 border-4 border-amber-300 dark:border-amber-600 rounded-3xl p-5 text-center shadow-xl cursor-pointer bounce-btn space-y-4 flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="w-16 h-16 mx-auto rounded-2xl bg-amber-100 dark:bg-amber-900/60 flex items-center justify-center text-4xl">
+                            📚
+                        </div>
+                        <h3 class="text-lg font-black text-slate-900 dark:text-white">Grammar & Vocab Notes</h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 font-bold leading-relaxed">
+                            Complete Year 5 units summary: Comparatives, Past Tense, Food, Sports, Wildlife & Audio pronunciations.
+                        </p>
+                    </div>
+                    <button class="w-full bg-amber-500 hover:bg-amber-600 text-white font-black py-2.5 rounded-2xl text-xs shadow-md border-b-4 border-amber-700">
+                        Open Notes 📖
+                    </button>
+                </div>
+
+                <!-- Module 2: UASA Practice Exam -->
+                <div onclick="startUasaExam()" class="bg-white dark:bg-slate-800 border-4 border-sky-300 dark:border-sky-600 rounded-3xl p-5 text-center shadow-xl cursor-pointer bounce-btn space-y-4 flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="w-16 h-16 mx-auto rounded-2xl bg-sky-100 dark:bg-sky-900/60 flex items-center justify-center text-4xl">
+                            📝
+                        </div>
+                        <h3 class="text-lg font-black text-slate-900 dark:text-white">UASA Practice Test</h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 font-bold leading-relaxed">
+                            Full UASA-formatted questions (Parts 1, 2, 3, 4, and 5) with instant feedback and scoring.
+                        </p>
+                    </div>
+                    <button class="w-full bg-sky-500 hover:bg-sky-600 text-white font-black py-2.5 rounded-2xl text-xs shadow-md border-b-4 border-sky-700">
+                        Start Practice 🎯
+                    </button>
+                </div>
+
+                <!-- Module 3: Word Spelling Master (Part 5) -->
+                <div onclick="startSpellingModule()" class="bg-white dark:bg-slate-800 border-4 border-emerald-300 dark:border-emerald-600 rounded-3xl p-5 text-center shadow-xl cursor-pointer bounce-btn space-y-4 flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="w-16 h-16 mx-auto rounded-2xl bg-emerald-100 dark:bg-emerald-900/60 flex items-center justify-center text-4xl">
+                            🔤
+                        </div>
+                        <h3 class="text-lg font-black text-slate-900 dark:text-white">Spelling Master (Part 5)</h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 font-bold leading-relaxed">
+                            Practice solving word clues and spelling Year 5 vocabulary correctly for Part 5 of the UASA exam.
+                        </p>
+                    </div>
+                    <button class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-black py-2.5 rounded-2xl text-xs shadow-md border-b-4 border-emerald-700">
+                        Practice Spelling 🛠️
+                    </button>
+                </div>
+
+                <!-- Module 4: Writing Guide (Parts 6 & 7) -->
+                <div onclick="showSection('writing')" class="bg-white dark:bg-slate-800 border-4 border-purple-300 dark:border-purple-600 rounded-3xl p-5 text-center shadow-xl cursor-pointer bounce-btn space-y-4 flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="w-16 h-16 mx-auto rounded-2xl bg-purple-100 dark:bg-purple-900/60 flex items-center justify-center text-4xl">
+                            ✍️
+                        </div>
+                        <h3 class="text-lg font-black text-slate-900 dark:text-white">Writing Guide (6 & 7)</h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 font-bold leading-relaxed">
+                            Learn sentence openers, email templates, and story structures for UASA Parts 6 and 7 writing.
+                        </p>
+                    </div>
+                    <button class="w-full bg-purple-500 hover:bg-purple-600 text-white font-black py-2.5 rounded-2xl text-xs shadow-md border-b-4 border-purple-700">
+                        View Writing Tips 📝
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= REVISION NOTES SECTION ================= -->
+        <section id="sec-notes" class="space-y-6 hidden">
+            <div class="flex items-center justify-between">
+                <button onclick="showSection('dashboard')" class="bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-100 font-extrabold px-4 py-2 rounded-2xl text-xs sm:text-sm flex items-center gap-2 bounce-btn">
+                    <i class="fa-solid fa-arrow-left"></i> Back to Home
+                </button>
+                <span class="text-xs sm:text-sm font-black text-amber-600 dark:text-amber-400">Year 5 English Revision Notes</span>
+            </div>
+
+            <!-- Notes Tab Navigation -->
+            <div class="flex overflow-x-auto gap-2 pb-2 custom-scrollbar border-b-2 border-slate-200 dark:border-slate-700">
+                <button onclick="switchNotesTab('tab-towns')" id="btn-tab-towns" class="notes-tab-btn bg-amber-500 text-white font-extrabold px-4 py-2.5 rounded-2xl text-xs whitespace-nowrap bounce-btn shadow">
+                    🏙️ Towns & Cities
+                </button>
+                <button onclick="switchNotesTab('tab-wildlife')" id="btn-tab-wildlife" class="notes-tab-btn bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 font-extrabold px-4 py-2.5 rounded-2xl text-xs whitespace-nowrap bounce-btn">
+                    🐯 Wild Life
+                </button>
+                <button onclick="switchNotesTab('tab-food')" id="btn-tab-food" class="notes-tab-btn bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 font-extrabold px-4 py-2.5 rounded-2xl text-xs whitespace-nowrap bounce-btn">
+                    🥗 Food & Health
+                </button>
+                <button onclick="switchNotesTab('tab-sports')" id="btn-tab-sports" class="notes-tab-btn bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 font-extrabold px-4 py-2.5 rounded-2xl text-xs whitespace-nowrap bounce-btn">
+                    ⚽ Sport Rules
+                </button>
+                <button onclick="switchNotesTab('tab-past')" id="btn-tab-past" class="notes-tab-btn bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 font-extrabold px-4 py-2.5 rounded-2xl text-xs whitespace-nowrap bounce-btn">
+                    ⏳ Past Simple Tense
+                </button>
+            </div>
+
+            <!-- Tab 1: Towns & Cities -->
+            <div id="notes-tab-towns" class="notes-content space-y-5">
+                <div class="bg-white dark:bg-slate-800 border-4 border-amber-300 dark:border-amber-600 rounded-3xl p-6 shadow-xl space-y-4">
+                    <h3 class="text-xl font-black text-slate-900 dark:text-white flex items-center gap-2">
+                        <span>🏙️</span> Unit 1: Towns and Cities (Comparatives & Superlatives)
+                    </h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 font-semibold">
+                        Learn how to compare places, buildings, and cities using short and long adjectives.
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-sky-50 dark:bg-slate-900 p-4 rounded-2xl border-2 border-sky-300 space-y-2">
+                            <h4 class="font-extrabold text-sky-700 dark:text-sky-400 text-sm">1. Comparative Adjectives (Comparing 2 things)</h4>
+                            <p class="text-xs text-slate-600 dark:text-slate-300">
+                                Add <strong>-er + than</strong> for short words. Use <strong>more + adjective + than</strong> for long words.
+                            </p>
+                            <ul class="text-xs font-bold text-slate-800 dark:text-slate-200 space-y-1 bg-white dark:bg-slate-800 p-2.5 rounded-xl">
+                                <li>• Kuala Lumpur is <u>bigger than</u> Ipoh.</li>
+                                <li>• Modern buildings are <u>more expensive than</u> old houses.</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-indigo-50 dark:bg-slate-900 p-4 rounded-2xl border-2 border-indigo-300 space-y-2">
+                            <h4 class="font-extrabold text-indigo-700 dark:text-indigo-400 text-sm">2. Superlative Adjectives (Comparing 3+ things)</h4>
+                            <p class="text-xs text-slate-600 dark:text-slate-300">
+                                Use <strong>the + -est</strong> for short words. Use <strong>the most + adjective</strong> for long words.
+                            </p>
+                            <ul class="text-xs font-bold text-slate-800 dark:text-slate-200 space-y-1 bg-white dark:bg-slate-800 p-2.5 rounded-xl">
+                                <li>• The Petronas Twin Towers are <u>the tallest</u> in the city.</li>
+                                <li>• It is <u>the most beautiful</u> park in Malaysia.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 2: Wild Life -->
+            <div id="notes-tab-wildlife" class="notes-content space-y-5 hidden">
+                <div class="bg-white dark:bg-slate-800 border-4 border-emerald-300 dark:border-emerald-600 rounded-3xl p-6 shadow-xl space-y-4">
+                    <h3 class="text-xl font-black text-slate-900 dark:text-white flex items-center gap-2">
+                        <span>🐯</span> Unit 3: Wild Life & Present Continuous
+                    </h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 font-semibold">
+                        Express actions happening right now and describe animal abilities.
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-emerald-50 dark:bg-slate-900 p-4 rounded-2xl border-2 border-emerald-300 space-y-2">
+                            <h4 class="font-extrabold text-emerald-700 dark:text-emerald-400 text-sm">Present Continuous Tense (is/am/are + Verb-ing)</h4>
+                            <div class="bg-white dark:bg-slate-800 p-3 rounded-xl text-xs space-y-1 font-bold">
+                                <p class="text-sky-600">The eagle <u>is flying</u> in the sky right now.</p>
+                                <p class="text-purple-600">The monkeys <u>are climbing</u> the tall trees.</p>
+                            </div>
+                        </div>
+                        <div class="bg-amber-50 dark:bg-slate-900 p-4 rounded-2xl border-2 border-amber-300 space-y-2">
+                            <h4 class="font-extrabold text-amber-800 dark:text-amber-400 text-sm">Animal Verbs & Key Vocab</h4>
+                            <div class="bg-white dark:bg-slate-800 p-3 rounded-xl text-xs space-y-1 font-bold">
+                                <p>• <strong>Camouflage:</strong> Hiding by blending with surroundings.</p>
+                                <p>• <strong>Habitat:</strong> The natural home of an animal.</p>
+                                <p>• <strong>Predator:</strong> An animal that hunts other animals.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 3: Food & Health -->
+            <div id="notes-tab-food" class="notes-content space-y-5 hidden">
+                <div class="bg-white dark:bg-slate-800 border-4 border-rose-300 dark:border-rose-600 rounded-3xl p-6 shadow-xl space-y-4">
+                    <h3 class="text-xl font-black text-slate-900 dark:text-white flex items-center gap-2">
+                        <span>🥗</span> Unit 5: Food and Health (Countable & Uncountable)
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-rose-50 dark:bg-slate-900 p-4 rounded-2xl border-2 border-rose-300 space-y-2">
+                            <h4 class="font-extrabold text-rose-700 dark:text-rose-400 text-sm">Countable Nouns (Can count with numbers)</h4>
+                            <p class="text-xs">Use <strong>many</strong> or <strong>a few</strong>.</p>
+                            <div class="bg-white dark:bg-slate-800 p-2.5 rounded-xl text-xs font-bold">
+                                Example: apples, sandwiches, eggs, vegetables.<br>
+                                <span class="text-emerald-600">• How <u>many</u> apples do you have?</span>
+                            </div>
+                        </div>
+                        <div class="bg-purple-50 dark:bg-slate-900 p-4 rounded-2xl border-2 border-purple-300 space-y-2">
+                            <h4 class="font-extrabold text-purple-700 dark:text-purple-400 text-sm">Uncountable Nouns (Cannot count easily)</h4>
+                            <p class="text-xs">Use <strong>much</strong> or <strong>a little</strong>.</p>
+                            <div class="bg-white dark:bg-slate-800 p-2.5 rounded-xl text-xs font-bold">
+                                Example: water, rice, sugar, soup, juice.<br>
+                                <span class="text-purple-600">• There isn't <u>much</u> water left in the bottle.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 4: Sports -->
+            <div id="notes-tab-sports" class="notes-content space-y-5 hidden">
+                <div class="bg-white dark:bg-slate-800 border-4 border-sky-300 dark:border-sky-600 rounded-3xl p-6 shadow-xl space-y-4">
+                    <h3 class="text-xl font-black text-slate-900 dark:text-white flex items-center gap-2">
+                        <span>⚽</span> Unit 4: Sport Rules (Play, Do, Go & Good At)
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <div class="bg-sky-50 dark:bg-slate-900 p-3 rounded-2xl border border-sky-300 text-xs space-y-1">
+                            <h4 class="font-black text-sky-700">PLAY</h4>
+                            <p class="font-semibold">Team sports with a ball/equipment:</p>
+                            <p class="font-bold text-sky-800 dark:text-sky-300">• Play football, tennis, basketball</p>
+                        </div>
+                        <div class="bg-purple-50 dark:bg-slate-900 p-3 rounded-2xl border border-purple-300 text-xs space-y-1">
+                            <h4 class="font-black text-purple-700">DO</h4>
+                            <p class="font-semibold">Individual sports & martial arts:</p>
+                            <p class="font-bold text-purple-800 dark:text-purple-300">• Do gymnastics, taekwondo, athletics</p>
+                        </div>
+                        <div class="bg-emerald-50 dark:bg-slate-900 p-3 rounded-2xl border border-emerald-300 text-xs space-y-1">
+                            <h4 class="font-black text-emerald-700">GO</h4>
+                            <p class="font-semibold">Activities ending in -ING:</p>
+                            <p class="font-bold text-emerald-800 dark:text-emerald-300">• Go swimming, cycling, skiing</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 5: Past Tense -->
+            <div id="notes-tab-past" class="notes-content space-y-5 hidden">
+                <div class="bg-white dark:bg-slate-800 border-4 border-indigo-300 dark:border-indigo-600 rounded-3xl p-6 shadow-xl space-y-4">
+                    <h3 class="text-xl font-black text-slate-900 dark:text-white flex items-center gap-2">
+                        <span>⏳</span> Unit 8: Past Simple Tense (Regular & Irregular Verbs)
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-bold">
+                        <div class="bg-indigo-50 dark:bg-slate-900 p-4 rounded-2xl border-2 border-indigo-200 space-y-2">
+                            <h4 class="text-indigo-700 dark:text-indigo-400 font-extrabold text-sm">Regular Verbs (+ed)</h4>
+                            <p>• play ➔ played</p>
+                            <p>• visit ➔ visited</p>
+                            <p>• walk ➔ walked</p>
+                        </div>
+                        <div class="bg-amber-50 dark:bg-slate-900 p-4 rounded-2xl border-2 border-amber-200 space-y-2">
+                            <h4 class="text-amber-800 dark:text-amber-400 font-extrabold text-sm">Irregular Verbs (Change spelling)</h4>
+                            <p>• go ➔ went | buy ➔ bought</p>
+                            <p>• win ➔ won | eat ➔ ate</p>
+                            <p>• see ➔ saw | take ➔ took</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= UASA PRACTICE TEST SECTION ================= -->
+        <section id="sec-uasa-exam" class="space-y-6 hidden">
+            <div class="flex items-center justify-between">
+                <button onclick="showSection('dashboard')" class="bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-100 font-extrabold px-4 py-2 rounded-2xl text-xs sm:text-sm flex items-center gap-2 bounce-btn">
+                    <i class="fa-solid fa-arrow-left"></i> Back to Home
+                </button>
+                <div class="flex items-center gap-2">
+                    <span id="uasa-part-badge" class="bg-sky-500 text-white font-black text-xs px-3 py-1 rounded-full uppercase">Part 1</span>
+                    <span class="text-xs sm:text-sm font-black text-sky-600 dark:text-sky-400">Year 5 UASA Practice Test</span>
+                </div>
+            </div>
+
+            <div class="bg-white dark:bg-slate-800 border-4 border-sky-300 dark:border-sky-600 rounded-3xl p-6 sm:p-8 shadow-2xl max-w-3xl mx-auto space-y-6 card-pop">
+                
+                <!-- Progress Indicator -->
+                <div class="space-y-2">
+                    <div class="flex justify-between items-center text-xs font-black text-slate-500 dark:text-slate-400">
+                        <span id="exam-progress-lbl">Question 1 of 23</span>
+                        <span id="exam-score-lbl" class="text-sky-600 dark:text-sky-400">Score: 0</span>
+                    </div>
+                    <div class="w-full bg-slate-100 dark:bg-slate-700 h-3 rounded-full overflow-hidden">
+                        <div id="exam-progress-bar" class="bg-sky-500 h-full w-1/23 transition-all duration-300"></div>
+                    </div>
+                </div>
+
+                <!-- Prompt Container -->
+                <div class="space-y-4 py-2">
+                    <!-- Context Card for Notices / Reading passages -->
+                    <div id="exam-context-card" class="bg-slate-50 dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 rounded-2xl p-4 text-center font-semibold text-xs sm:text-sm space-y-2">
+                        <!-- Dynamic Context Text/Image Placeholder -->
+                    </div>
+
+                    <p id="exam-question-text" class="text-base sm:text-lg font-black text-slate-800 dark:text-white leading-relaxed text-center">
+                        <!-- Dynamic Question Text -->
+                    </p>
+
+                    <div class="flex justify-center">
+                        <button onclick="playExamAudioPrompt()" class="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-sky-500 hover:bg-sky-600 text-white font-extrabold text-xs shadow-md bounce-btn border-b-4 border-sky-800">
+                            <i class="fa-solid fa-volume-high"></i> Listen to Question
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Multiple Choice Options -->
+                <div id="exam-options-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2">
+                    <!-- Dynamic Option Buttons -->
+                </div>
+
+                <!-- Feedback Banner -->
+                <div id="exam-feedback-box" class="hidden p-4 rounded-2xl text-center font-black text-xs sm:text-sm border-2"></div>
+            </div>
+        </section>
+
+        <!-- ================= SPELLING MASTER SECTION (PART 5) ================= -->
+        <section id="sec-spelling" class="space-y-6 hidden">
+            <div class="flex items-center justify-between">
+                <button onclick="showSection('dashboard')" class="bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-100 font-extrabold px-4 py-2 rounded-2xl text-xs sm:text-sm flex items-center gap-2 bounce-btn">
+                    <i class="fa-solid fa-arrow-left"></i> Back to Home
+                </button>
+                <span class="text-xs sm:text-sm font-black text-emerald-600 dark:text-emerald-400">UASA Part 5: Spelling & Word Clues</span>
+            </div>
+
+            <div class="bg-white dark:bg-slate-800 border-4 border-emerald-300 dark:border-emerald-600 rounded-3xl p-6 sm:p-8 shadow-2xl max-w-xl mx-auto space-y-6 text-center card-pop">
+                <div class="space-y-2">
+                    <span class="bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 font-black text-xs px-3.5 py-1.5 rounded-full uppercase">Word Definition & Spelling</span>
+                    <h3 id="spelling-title" class="text-2xl font-black text-slate-900 dark:text-white">Spell the Missing Word</h3>
+                    <p id="spelling-progress-lbl" class="text-xs font-bold text-slate-400">Word 1 of 8</p>
+                </div>
+
+                <!-- Clue Card -->
+                <div class="bg-emerald-50 dark:bg-slate-900 border-2 border-emerald-200 dark:border-emerald-800 p-5 rounded-2xl space-y-2">
+                    <p id="spelling-clue-text" class="text-sm sm:text-base font-bold text-slate-800 dark:text-slate-200">
+                        <!-- Dynamic Clue -->
+                    </p>
+                    <p id="spelling-hint-text" class="text-xs font-extrabold text-emerald-600 dark:text-emerald-400 tracking-widest">
+                        <!-- Hint like: S _ _ _ _ U M -->
+                    </p>
+                </div>
+
+                <!-- Interactive Input Box -->
+                <div class="space-y-3">
+                    <input type="text" id="spelling-user-input" placeholder="Type your answer here..." autocomplete="off" class="w-full text-center font-black text-lg p-3 rounded-2xl border-4 border-emerald-300 focus:border-emerald-500 outline-none text-slate-800 dark:text-white bg-slate-50 dark:bg-slate-900 uppercase tracking-widest">
+                    
+                    <div class="flex gap-3 justify-center">
+                        <button onclick="checkSpellingAnswer()" class="bg-emerald-500 hover:bg-emerald-600 text-white font-black px-6 py-3 rounded-2xl text-sm shadow-md border-b-4 border-emerald-700 bounce-btn">
+                            Submit Answer ✅
+                        </button>
+                        <button onclick="playSpellingAudioClue()" class="bg-sky-500 hover:bg-sky-600 text-white font-black px-4 py-3 rounded-2xl text-sm shadow-md border-b-4 border-sky-700 bounce-btn">
+                            <i class="fa-solid fa-volume-high"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="spelling-feedback-box" class="hidden p-3 rounded-2xl text-xs font-black"></div>
+            </div>
+        </section>
+
+        <!-- ================= WRITING GUIDE SECTION (PARTS 6 & 7) ================= -->
+        <section id="sec-writing" class="space-y-6 hidden">
+            <div class="flex items-center justify-between">
+                <button onclick="showSection('dashboard')" class="bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-100 font-extrabold px-4 py-2 rounded-2xl text-xs sm:text-sm flex items-center gap-2 bounce-btn">
+                    <i class="fa-solid fa-arrow-left"></i> Back to Home
+                </button>
+                <span class="text-xs sm:text-sm font-black text-purple-600 dark:text-purple-400">UASA Writing Guide (Parts 6 & 7)</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Part 6: Short Note / Email -->
+                <div class="bg-white dark:bg-slate-800 border-4 border-purple-300 dark:border-purple-600 rounded-3xl p-6 shadow-xl space-y-4">
+                    <span class="bg-purple-100 dark:bg-purple-950 text-purple-800 dark:text-purple-300 font-black text-xs px-3 py-1 rounded-full uppercase">Part 6 • Short Note / Email (30-50 words)</span>
+                    <h3 class="text-xl font-black text-slate-900 dark:text-white">Email Format & Openers</h3>
+                    <p class="text-xs text-slate-500 font-semibold leading-relaxed">
+                        In UASA Part 6, you must write a short email or message to a friend or family member answering 3 prompts.
+                    </p>
+
+                    <div class="bg-purple-50 dark:bg-slate-900 p-4 rounded-2xl border-2 border-purple-200 text-xs space-y-2 font-bold">
+                        <p class="text-purple-700 dark:text-purple-400">📌 Model Template:</p>
+                        <div class="bg-white dark:bg-slate-800 p-3 rounded-xl space-y-1 leading-relaxed text-slate-700 dark:text-slate-300">
+                            <p>To: sara@email.com</p>
+                            <p>Subject: Sports Club Join</p>
+                            <p class="pt-2">Hi Sara,</p>
+                            <p>How are you? I would love to join the sports club with you this Saturday. We can play badminton together at the sports hall. Don't forget to bring your racket!</p>
+                            <p class="pt-2">See you soon,<br>Amir</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Part 7: Guided Story / Essay -->
+                <div class="bg-white dark:bg-slate-800 border-4 border-indigo-300 dark:border-indigo-600 rounded-3xl p-6 shadow-xl space-y-4">
+                    <span class="bg-indigo-100 dark:bg-indigo-950 text-indigo-800 dark:text-indigo-300 font-black text-xs px-3 py-1 rounded-full uppercase">Part 7 • Guided Writing (60-80 words)</span>
+                    <h3 class="text-xl font-black text-slate-900 dark:text-white">Guided Essay Checklist</h3>
+                    <p class="text-xs text-slate-500 font-semibold leading-relaxed">
+                        In UASA Part 7, use all given notes or pictures to write a coherent story or article in past tense.
+                    </p>
+
+                    <div class="bg-indigo-50 dark:bg-slate-900 p-4 rounded-2xl border-2 border-indigo-200 text-xs space-y-2 font-bold">
+                        <p class="text-indigo-700 dark:text-indigo-400">✨ Key Writing Tips:</p>
+                        <ul class="space-y-1.5 text-slate-700 dark:text-slate-300">
+                            <li>1. <strong>Past Tense Verbs:</strong> Use <em>went, enjoyed, bought, saw, played</em>.</li>
+                            <li>2. <strong>Time Connectors:</strong> Use <em>First, Next, Then, After that, Finally</em>.</li>
+                            <li>3. <strong>Adjectives:</strong> Add descriptive words like <em>delicious, crowded, wonderful, thrilling</em>.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= REWARD MODAL ================= -->
+        <div id="reward-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 hidden">
+            <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 sm:p-8 max-w-md w-full text-center shadow-2xl border-4 border-amber-400 space-y-5 card-pop">
+                <div class="text-7xl float-anim">🏆</div>
+                <div class="space-y-1">
+                    <h3 id="modal-title" class="text-3xl font-black text-slate-900 dark:text-white">Congratulations!</h3>
+                    <p id="modal-subtitle" class="text-xs text-slate-500 font-bold">You completed the Year 5 practice module!</p>
+                </div>
+                <div id="modal-stars" class="flex justify-center gap-2 text-4xl text-amber-400">
+                    <i class="fa-solid fa-star star-glow"></i>
+                    <i class="fa-solid fa-star star-glow"></i>
+                    <i class="fa-solid fa-star star-glow"></i>
+                </div>
+                <button onclick="closeRewardModal()" class="w-full bg-amber-500 hover:bg-amber-600 text-white font-black py-3.5 rounded-2xl text-base shadow-lg border-b-4 border-amber-700 bounce-btn">
+                    Continue Learning 🚀
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="py-4 text-center text-xs font-bold text-slate-400 border-t border-slate-200 dark:border-slate-800">
+        UASA English Year 5 Mastery Hub • CEFR English Plus 1 Curriculum
+    </footer>
+
+    <!-- ================= JAVASCRIPT LOGIC & DATA ================= -->
+    <script>
+        const UASA_FULL_DATA = {
+            examQuestions: [
+                // PART 1: SHORT TEXTS & NOTICES (Questions 1-5)
+                {
+                    part: "Part 1 • Short Text",
+                    contextHeader: "📋 NOTICE AT THE SCHOOL LIBRARY",
+                    contextBody: "Please return all borrowed storybooks by Friday. A fine of RM0.50 per day will be charged for late returns.",
+                    questionText: "1. Why must students return their storybooks by Friday?",
+                    audioPrompt: "Why must students return their storybooks by Friday?",
+                    options: [
+                        { text: "To avoid paying a daily fine.", emoji: "💰" },
+                        { text: "Because the library is closing down.", emoji: "🚪" },
+                        { text: "To buy new books at the library.", emoji: "📚" }
+                    ],
+                    correctIndex: 0
+                },
+                {
+                    part: "Part 1 • Short Text",
+                    contextHeader: "✉️ EMAIL FROM MEI LING TO ALICIA",
+                    contextBody: "Hi Alicia, my family is going on a camping trip to Taman Negara next weekend. Would you like to come along with us?",
+                    questionText: "2. What is Mei Ling doing in this email?",
+                    audioPrompt: "What is Mei Ling doing in this email?",
+                    options: [
+                        { text: "Asking Alicia for homework help.", emoji: "📝" },
+                        { text: "Inviting Alicia to go camping.", emoji: "⛺" },
+                        { text: "Selling camping equipment.", emoji: "🛒" }
+                    ],
+                    correctIndex: 1
+                },
+                {
+                    part: "Part 1 • Short Text",
+                    contextHeader: "🍔 CAFE MENU NOTICE",
+                    contextBody: "Special Meal: Grilled Chicken Salad with Fresh Orange Juice. Healthy and low in sugar!",
+                    questionText: "3. This special meal is suitable for someone who wants to...",
+                    audioPrompt: "This special meal is suitable for someone who wants to...",
+                    options: [
+                        { text: "eat unhealthy fast food.", emoji: "🍟" },
+                        { text: "have a healthy meal.", emoji: "🥗" },
+                        { text: "buy sweet chocolate cake.", emoji: "🍰" }
+                    ],
+                    correctIndex: 1
+                },
+                {
+                    part: "Part 1 • Short Text",
+                    contextHeader: "💬 MESSAGE FROM DAD",
+                    contextBody: "Aiman, please remember to feed the cat and water the plants before you leave for tuition.",
+                    questionText: "4. What must Aiman do before leaving for tuition?",
+                    audioPrompt: "What must Aiman do before leaving for tuition?",
+                    options: [
+                        { text: "Do two household chores.", emoji: "🧹" },
+                        { text: "Cook dinner for Dad.", emoji: "🍳" },
+                        { text: "Go shopping at the mall.", emoji: "🛍️" }
+                    ],
+                    correctIndex: 0
+                },
+                {
+                    part: "Part 1 • Short Text",
+                    contextHeader: "🎾 SPORTS CENTRE ANNOUNCEMENT",
+                    contextBody: "Badminton court booking fee is reduced by 50% on weekday mornings!",
+                    questionText: "5. When is playing badminton cheaper at the sports centre?",
+                    audioPrompt: "When is playing badminton cheaper at the sports centre?",
+                    options: [
+                        { text: "On weekend evenings.", emoji: "🌙" },
+                        { text: "On weekday mornings.", emoji: "☀️" },
+                        { text: "Only on public holidays.", emoji: "🎉" }
+                    ],
+                    correctIndex: 1
+                },
+
+                // PART 2: CLOZE PASSAGE (Questions 6-9)
+                {
+                    part: "Part 2 • Cloze Text",
+                    contextHeader: "📖 TRIP TO THE NATIONAL PARK",
+                    contextBody: "Last Saturday, Year 5 pupils (6) ___ on an educational visit to the zoo. They saw many wild animals.",
+                    questionText: "6. Choose the correct verb:",
+                    audioPrompt: "Choose the correct verb.",
+                    options: [
+                        { text: "go", emoji: "➡️" },
+                        { text: "went", emoji: "🚌" },
+                        { text: "going", emoji: "🏃" }
+                    ],
+                    correctIndex: 1
+                },
+                {
+                    part: "Part 2 • Cloze Text",
+                    contextHeader: "📖 TRIP TO THE NATIONAL PARK",
+                    contextBody: "The elephants were the (7) ___ animals in the park. Everyone was amazed by their size.",
+                    questionText: "7. Choose the correct comparative/superlative word:",
+                    audioPrompt: "Choose the correct comparative or superlative word.",
+                    options: [
+                        { text: "biggest", emoji: "🐘" },
+                        { text: "bigger", emoji: "📈" },
+                        { text: "big", emoji: "▫️" }
+                    ],
+                    correctIndex: 0
+                },
+                {
+                    part: "Part 2 • Cloze Text",
+                    contextHeader: "📖 TRIP TO THE NATIONAL PARK",
+                    contextBody: "The pupils listened carefully (8) ___ the guide explained animal behaviors.",
+                    questionText: "8. Choose the correct conjunction:",
+                    audioPrompt: "Choose the correct conjunction.",
+                    options: [
+                        { text: "while", emoji: "⏱️" },
+                        { text: "but", emoji: "⚡" },
+                        { text: "or", emoji: "❓" }
+                    ],
+                    correctIndex: 0
+                },
+                {
+                    part: "Part 2 • Cloze Text",
+                    contextHeader: "📖 TRIP TO THE NATIONAL PARK",
+                    contextBody: "Before going home, they bought some lovely (9) ___ from the gift shop.",
+                    questionText: "9. Choose the correct noun:",
+                    audioPrompt: "Choose the correct noun.",
+                    options: [
+                        { text: "souvenirs", emoji: "🎁" },
+                        { text: "homework", emoji: "📚" },
+                        { text: "tickets", emoji: "🎟️" }
+                    ],
+                    correctIndex: 0
+                },
+
+                // PART 3: READING COMPREHENSION (Questions 10-14)
+                {
+                    part: "Part 3 • Reading Comprehension",
+                    contextHeader: "📰 ARTICLE: AN YOUNG MALAYSIAN SWIMMER",
+                    contextBody: "Adam is an 11-year-old swimmer from Penang. He started swimming when he was six years old. He trains four days a week at the public pool. Last month, Adam won two gold medals at the State Junior Championship.",
+                    questionText: "10. How old was Adam when he first started swimming?",
+                    audioPrompt: "How old was Adam when he first started swimming?",
+                    options: [
+                        { text: "Six years old.", emoji: "6️⃣" },
+                        { text: "Eleven years old.", emoji: "1️⃣1️⃣" },
+                        { text: "Four years old.", emoji: "4️⃣" }
+                    ],
+                    correctIndex: 0
+                },
+                {
+                    part: "Part 3 • Reading Comprehension",
+                    contextHeader: "📰 ARTICLE: AN YOUNG MALAYSIAN SWIMMER",
+                    contextBody: "Adam is an 11-year-old swimmer from Penang. He trains four days a week at the public pool. Last month, Adam won two gold medals at the State Junior Championship.",
+                    questionText: "11. Where does Adam carry out his training?",
+                    audioPrompt: "Where does Adam carry out his training?",
+                    options: [
+                        { text: "At his school gymnasium.", emoji: "🏫" },
+                        { text: "At the public pool.", emoji: "🏊" },
+                        { text: "At the beach in Penang.", emoji: "🏖️" }
+                    ],
+                    correctIndex: 1
+                },
+                {
+                    part: "Part 3 • Reading Comprehension",
+                    contextHeader: "📰 ARTICLE: AN YOUNG MALAYSIAN SWIMMER",
+                    contextBody: "Adam is an 11-year-old swimmer from Penang. Last month, Adam won two gold medals at the State Junior Championship.",
+                    questionText: "12. How many gold medals did Adam win last month?",
+                    audioPrompt: "How many gold medals did Adam win last month?",
+                    options: [
+                        { text: "One medal.", emoji: "🥇" },
+                        { text: "Two medals.", emoji: "🏅" },
+                        { text: "Four medals.", emoji: "🏆" }
+                    ],
+                    correctIndex: 1
+                },
+                {
+                    part: "Part 3 • Reading Comprehension",
+                    contextHeader: "📰 ARTICLE: AN YOUNG MALAYSIAN SWIMMER",
+                    contextBody: "Adam's goal is to represent Malaysia at the Asian Youth Games in the future. His coach says he is very disciplined and dedicated.",
+                    questionText: "13. What is Adam's main goal for the future?",
+                    audioPrompt: "What is Adam's main goal for the future?",
+                    options: [
+                        { text: "To represent Malaysia at the Asian Youth Games.", emoji: "🇲🇾" },
+                        { text: "To become a swimming coach in Penang.", emoji: "👨‍🏫" },
+                        { text: "To stop swimming and play football.", emoji: "⚽" }
+                    ],
+                    correctIndex: 0
+                },
+                {
+                    part: "Part 3 • Reading Comprehension",
+                    contextHeader: "📰 ARTICLE: AN YOUNG MALAYSIAN SWIMMER",
+                    contextBody: "His coach says he is very disciplined and dedicated.",
+                    questionText: "14. The word 'dedicated' means Adam is...",
+                    audioPrompt: "The word dedicated means Adam is...",
+                    options: [
+                        { text: "lazy and forgets to train.", emoji: "😴" },
+                        { text: "hardworking and committed.", emoji: "💪" },
+                        { text: "fearful of water.", emoji: "🌊" }
+                    ],
+                    correctIndex: 1
+                },
+
+                // PART 4: INFORMATION MATCHING (Questions 15-18)
+                {
+                    part: "Part 4 • Information Matching",
+                    contextHeader: "👥 THREE PUPILS' HOBBIES:\n• A: Kumaran (Loves outdoor cycling & photography)\n• B: Sarah (Enjoys baking cakes & healthy salads)\n• C: Jason (Practices taekwondo & martial arts)",
+                    contextBody: "",
+                    questionText: "15. Who likes preparing healthy food in the kitchen?",
+                    audioPrompt: "Who likes preparing healthy food in the kitchen?",
+                    options: [
+                        { text: "Kumaran", emoji: "🚴" },
+                        { text: "Sarah", emoji: "🧁" },
+                        { text: "Jason", emoji: "🥋" }
+                    ],
+                    correctIndex: 1
+                },
+                {
+                    part: "Part 4 • Information Matching",
+                    contextHeader: "👥 THREE PUPILS' HOBBIES:\n• A: Kumaran (Loves outdoor cycling & photography)\n• B: Sarah (Enjoys baking cakes & healthy salads)\n• C: Jason (Practices taekwondo & martial arts)",
+                    contextBody: "",
+                    questionText: "16. Who takes photos while riding his bicycle outdoors?",
+                    audioPrompt: "Who takes photos while riding his bicycle outdoors?",
+                    options: [
+                        { text: "Kumaran", emoji: "🚴" },
+                        { text: "Sarah", emoji: "🧁" },
+                        { text: "Jason", emoji: "🥋" }
+                    ],
+                    correctIndex: 0
+                },
+                {
+                    part: "Part 4 • Information Matching",
+                    contextHeader: "👥 THREE PUPILS' HOBBIES:\n• A: Kumaran (Loves outdoor cycling & photography)\n• B: Sarah (Enjoys baking cakes & healthy salads)\n• C: Jason (Practices taekwondo & martial arts)",
+                    contextBody: "",
+                    questionText: "17. Who does an individual martial art sport?",
+                    audioPrompt: "Who does an individual martial art sport?",
+                    options: [
+                        { text: "Kumaran", emoji: "🚴" },
+                        { text: "Sarah", emoji: "🧁" },
+                        { text: "Jason", emoji: "🥋" }
+                    ],
+                    correctIndex: 2
+                },
+                {
+                    part: "Part 4 • Information Matching",
+                    contextHeader: "👥 THREE PUPILS' HOBBIES:\n• A: Kumaran (Loves outdoor cycling & photography)\n• B: Sarah (Enjoys baking cakes & healthy salads)\n• C: Jason (Practices taekwondo & martial arts)",
+                    contextBody: "",
+                    questionText: "18. Which pupil would use a camera for their activity?",
+                    audioPrompt: "Which pupil would use a camera for their activity?",
+                    options: [
+                        { text: "Kumaran", emoji: "📸" },
+                        { text: "Sarah", emoji: "🧁" },
+                        { text: "Jason", emoji: "🥋" }
+                    ],
+                    correctIndex: 0
+                }
+            ],
+
+            spellingList: [
+                {
+                    clue: "A large venue where sports matches and concerts take place.",
+                    hint: "S _ _ _ _ U M",
+                    answer: "STADIUM"
+                },
+                {
+                    clue: "An official who enforces rules during a sports match.",
+                    hint: "R _ _ _ _ E E",
+                    answer: "REFEREE"
+                },
+                {
+                    clue: "Good for your body and mind; not illness or unhealthy.",
+                    hint: "H _ _ _ T H Y",
+                    answer: "HEALTHY"
+                },
+                {
+                    clue: "An animal that hunts and eats other animals for food.",
+                    hint: "P _ _ _ A T O R",
+                    answer: "PREDATOR"
+                },
+                {
+                    clue: "An official document needed when travelling to other countries.",
+                    hint: "P _ _ _ P O R T",
+                    answer: "PASSPORT"
+                },
+                {
+                    clue: "Activity of gliding on snow using long narrow boards.",
+                    hint: "S _ _ I N G",
+                    answer: "SKIING"
+                },
+                {
+                    clue: "An equipment used to hit the shuttlecock in badminton.",
+                    hint: "R _ _ K E T",
+                    answer: "RACKET"
+                },
+                {
+                    clue: "A golden prize awarded to the winner of a tournament.",
+                    hint: "T _ _ P H Y",
+                    answer: "TROPHY"
+                }
+            ]
+        };
+
+        let currentStars = 0;
+        let audioEnabled = true;
+
+        // Exam State
+        let examIndex = 0;
+        let examScore = 0;
+
+        // Spelling State
+        let spellingIndex = 0;
+
+        function showSection(secId) {
+            playSound('click');
+            const sections = ['dashboard', 'notes', 'uasa-exam', 'spelling', 'writing'];
+            sections.forEach(s => {
+                const el = document.getElementById(`sec-${s}`);
+                if (el) el.classList.add('hidden');
+            });
+            const target = document.getElementById(`sec-${secId}`);
+            if (target) target.classList.remove('hidden');
+        }
+
+        function switchNotesTab(tabId) {
+            playSound('click');
+            document.querySelectorAll('.notes-content').forEach(c => c.classList.add('hidden'));
+            document.querySelectorAll('.notes-tab-btn').forEach(b => {
+                b.classList.remove('bg-amber-500', 'text-white');
+                b.classList.add('bg-slate-200', 'dark:bg-slate-700', 'text-slate-700', 'dark:text-slate-200');
+            });
+
+            const activeTab = document.getElementById(`notes-${tabId}`);
+            if (activeTab) activeTab.classList.remove('hidden');
+
+            const activeBtn = document.getElementById(`btn-${tabId}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('bg-slate-200', 'dark:bg-slate-700', 'text-slate-700', 'dark:text-slate-200');
+                activeBtn.classList.add('bg-amber-500', 'text-white');
+            }
+        }
+
+        // ================= UASA EXAM FUNCTIONS =================
+        function startUasaExam() {
+            examIndex = 0;
+            examScore = 0;
+            loadExamQuestion();
+            showSection('uasa-exam');
+        }
+
+        function loadExamQuestion() {
+            const questions = UASA_FULL_DATA.examQuestions;
+            const q = questions[examIndex];
+
+            // Feedback box reset
+            const feedbackBox = document.getElementById('exam-feedback-box');
+            feedbackBox.classList.add('hidden');
+
+            document.getElementById('uasa-part-badge').innerText = q.part;
+            document.getElementById('exam-progress-lbl').innerText = `Question ${examIndex + 1} of ${questions.length}`;
+            document.getElementById('exam-score-lbl').innerText = `Score: ${examScore} / ${questions.length * 10}`;
+
+            const pct = ((examIndex + 1) / questions.length) * 100;
+            document.getElementById('exam-progress-bar').style.width = `${pct}%`;
+
+            // Render Context Card
+            const contextCard = document.getElementById('exam-context-card');
+            if (q.contextHeader || q.contextBody) {
+                contextCard.classList.remove('hidden');
+                contextCard.innerHTML = `
+                    <div class="font-extrabold text-sky-700 dark:text-sky-400 uppercase tracking-wide text-xs">${q.contextHeader}</div>
+                    ${q.contextBody ? `<div class="pt-1 text-slate-700 dark:text-slate-200 leading-relaxed font-semibold">${q.contextBody}</div>` : ''}
+                `;
+            } else {
+                contextCard.classList.add('hidden');
+            }
+
+            document.getElementById('exam-question-text').innerText = q.questionText;
+
+            const grid = document.getElementById('exam-options-grid');
+            grid.innerHTML = q.options.map((opt, i) => `
+                <button onclick="answerExam(${i})" class="exam-opt-btn bg-slate-50 dark:bg-slate-700/60 hover:bg-sky-100 dark:hover:bg-sky-950/60 border-3 border-slate-200 dark:border-slate-600 rounded-2xl p-3.5 flex items-center gap-3 bounce-btn shadow-sm text-left">
+                    <span class="text-2xl sm:text-3xl">${opt.emoji}</span>
+                    <span class="font-black text-xs sm:text-sm text-slate-800 dark:text-slate-100">${opt.text}</span>
+                </button>
+            `).join('');
+
+            setTimeout(() => playExamAudioPrompt(), 300);
+        }
+
+        function playExamAudioPrompt() {
+            const q = UASA_FULL_DATA.examQuestions[examIndex];
+            speakText(q.audioPrompt);
+        }
+
+        function answerExam(selectedIndex) {
+            const q = UASA_FULL_DATA.examQuestions[examIndex];
+            const questions = UASA_FULL_DATA.examQuestions;
+            const feedbackBox = document.getElementById('exam-feedback-box');
+
+            document.querySelectorAll('.exam-opt-btn').forEach(btn => btn.classList.add('pointer-events-none'));
+
+            if (selectedIndex === q.correctIndex) {
+                playSound('correct');
+                examScore += 10;
+                addStars(5);
+
+                feedbackBox.className = "p-3.5 rounded-2xl text-center font-black text-xs sm:text-sm bg-emerald-100 border-emerald-400 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200 block";
+                feedbackBox.innerText = "✅ Correct! Great job!";
+
+                setTimeout(() => {
+                    examIndex++;
+                    if (examIndex < questions.length) {
+                        loadExamQuestion();
+                    } else {
+                        triggerRewardModal("Outstanding! 🏆", `You completed the Year 5 UASA Practice Test! Score: ${examScore} / ${questions.length * 10}`, "🌟");
+                    }
+                }, 1000);
+
+            } else {
+                playSound('wrong');
+                speakText("Incorrect answer. Try again!");
+
+                feedbackBox.className = "p-3.5 rounded-2xl text-center font-black text-xs sm:text-sm bg-rose-100 border-rose-400 text-rose-800 dark:bg-rose-950 dark:text-rose-200 block";
+                feedbackBox.innerText = `❌ Incorrect! Correct answer: "${q.options[q.correctIndex].text}"`;
+
+                setTimeout(() => {
+                    document.querySelectorAll('.exam-opt-btn').forEach(btn => btn.classList.remove('pointer-events-none'));
+                }, 1200);
+            }
+        }
+
+        // ================= SPELLING MASTER FUNCTIONS =================
+        function startSpellingModule() {
+            spellingIndex = 0;
+            loadSpellingQuestion();
+            showSection('spelling');
+        }
+
+        function loadSpellingQuestion() {
+            const list = UASA_FULL_DATA.spellingList;
+            const item = list[spellingIndex];
+
+            const feedback = document.getElementById('spelling-feedback-box');
+            feedback.classList.add('hidden');
+
+            document.getElementById('spelling-progress-lbl').innerText = `Word ${spellingIndex + 1} of ${list.length}`;
+            document.getElementById('spelling-clue-text').innerText = item.clue;
+            document.getElementById('spelling-hint-text').innerText = item.hint;
+            
+            const input = document.getElementById('spelling-user-input');
+            input.value = '';
+            input.focus();
+
+            setTimeout(() => playSpellingAudioClue(), 300);
+        }
+
+        function playSpellingAudioClue() {
+            const item = UASA_FULL_DATA.spellingList[spellingIndex];
+            speakText(`Clue: ${item.clue}`);
+        }
+
+        function checkSpellingAnswer() {
+            const list = UASA_FULL_DATA.spellingList;
+            const item = list[spellingIndex];
+            const input = document.getElementById('spelling-user-input');
+            const feedback = document.getElementById('spelling-feedback-box');
+
+            const val = input.value.trim().toUpperCase();
+
+            if (val === item.answer) {
+                playSound('correct');
+                addStars(10);
+                triggerConfetti();
+
+                feedback.className = "p-3 rounded-2xl text-xs font-black bg-emerald-100 border border-emerald-400 text-emerald-800 block";
+                feedback.innerText = "✅ Correct Spelling!";
+
+                spellingIndex++;
+                if (spellingIndex < list.length) {
+                    setTimeout(() => loadSpellingQuestion(), 900);
+                } else {
+                    triggerRewardModal("Spelling Master! 🔤", "You spelled all UASA Part 5 words correctly!", "🎓");
+                }
+            } else {
+                playSound('wrong');
+                feedback.className = "p-3 rounded-2xl text-xs font-black bg-rose-100 border border-rose-400 text-rose-800 block";
+                feedback.innerText = `❌ Incorrect spelling! Try again.`;
+                speakText("Try again!");
+            }
+        }
+
+        // ================= UTILITIES & AUDIO =================
+        function addStars(num) {
+            currentStars += num;
+            document.getElementById('star-count').innerText = currentStars;
+        }
+
+        function triggerRewardModal(title, sub, badgeIcon) {
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-subtitle').innerText = sub;
+            document.getElementById('reward-modal').classList.remove('hidden');
+            triggerConfetti();
+        }
+
+        function closeRewardModal() {
+            document.getElementById('reward-modal').classList.add('hidden');
+            showSection('dashboard');
+        }
+
+        function triggerConfetti() {
+            try {
+                confetti({ particleCount: 100, spread: 80, origin: { y: 0.6 } });
+            } catch (e) {}
+        }
+
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(type) {
+            if (!audioEnabled) return;
+            try {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                if (type === 'click') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(480, audioCtx.currentTime);
+                    gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.06);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.06);
+                } else if (type === 'correct') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(523, audioCtx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(659, audioCtx.currentTime + 0.15);
+                    gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.3);
+                } else if (type === 'wrong') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(180, audioCtx.currentTime);
+                    gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.2);
+                }
+            } catch (e) {}
+        }
+
+        function speakText(text) {
+            if (!audioEnabled) return;
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.rate = 0.85;
+                utterance.lang = 'en-US';
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        function toggleAudio() {
+            audioEnabled = !audioEnabled;
+            const icon = document.getElementById('audio-icon');
+            icon.className = audioEnabled ? "fa-solid fa-volume-high" : "fa-solid fa-volume-xmark text-rose-500";
+        }
+
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            const icon = document.getElementById('theme-icon');
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                html.classList.add('light');
+                icon.className = "fa-solid fa-moon";
+            } else {
+                html.classList.remove('light');
+                html.classList.add('dark');
+                icon.className = "fa-solid fa-sun text-amber-400";
+            }
+        }
+
+        window.onload = function() {
+            showSection('dashboard');
+        };
+    </script>
+</body>
+</html>
